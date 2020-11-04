@@ -1,4 +1,86 @@
 #! /bin/bash
+echo "Enter the number of desired coin combination"
+echo "1)Signlet" 
+echo "2)Double" 
+echo "3)Triple" 
+read option
+case $option in
+1)
+H=0
+T=0
+declare -A Dict
+for i in $(seq 1 50)
+do
+flip1=$((RANDOM%2))
+if [[ $flip1 == 1 ]]
+then
+        Dict[$i]="H"
+        ((H++))
+else
+        Dict[$i]="T"
+        ((T++))
+fi
+done
+H=`expr $H \* 100 / 50 `
+echo "H : $H % "
+T=`expr $T \* 100 / 50`
+echo "T : $T %"
+declare -A Dict1
+Dict1=([H]=$H [T]=$T)
+max=0
+for i in ${!Dict1[@]}
+do
+        (( $i > max || max == 0 ))&& max=$i
+done
+echo "The winning combinatioon :"
+echo "$max : ${Dict1[$max]} %"
+;;
+2)
+HH=0
+HT=0
+TH=0
+TT=0
+declare -A Dict
+for i in $(seq 1 50)
+do
+flip1=$((RANDOM%2))
+flip2=$((RANDOM%2))
+if [[ $flip1 == 1 && $flip2 == 1 ]]
+then
+        Dict[$i]="HH"
+        ((HH++))
+elif [[ $flip1 == 1 && $flip2 == 0 ]]
+then
+        Dict[$i]="HT"
+        ((HT++))
+elif [[ $flip1 == 0 && $flip2 == 1 ]]
+then
+        Dict[$i]="TH"
+        ((TH++))
+else
+        Dict[$i]="TT"
+        ((TT++))
+fi
+done
+HH=`expr $HH \* 100 / 50 `
+echo "HH : $HH % "
+HT=`expr $HT \* 100 / 50`
+echo "HT : $HT %"
+TH=`expr $TH \* 100 / 50 `
+echo "TH : $TH % "
+TT=`expr $TT \* 100 / 50`
+echo "TT : $TT %"
+declare -A Dict1
+Dict1=([HH]=$HH [HT]=$HT [TH]=$TH [TT]=$TT)
+max=0
+for i in ${!Dict1[@]}
+do
+        (( $i > max || max == 0 ))&& max=$i
+done
+echo "The winning combinatioon :"
+echo "$max : ${Dict1[$max]} %"
+;;
+3)
 HHH=0
 HHT=0
 HTH=0
@@ -46,28 +128,35 @@ else
         ((TTT++))
 fi
 done
-echo "HHH : $HHH"
-echo "HHT : $HHT"
-echo "HTH : $HTH"
-echo "THH : $THH"
-echo "TTH : $TTH"
-echo "THT : $THT"
-echo "HTT : $HTT"
-echo "TTT : $TTT"
 HHH=`expr $HHH \* 100 / 50 `
-echo "Percentage of HHH is $HHH % "
+echo "HHH : $HHH % "
 HHT=`expr $HHT \* 100 / 50`
-echo "Percentahe of HHT is $HHT %" 
+echo "HHT : $HHT %" 
 HTH=`expr $HTH \* 100 / 50 `
-echo "Percentage of HTH is $HTH % "
+echo "HTH : $HTH % "
 THH=`expr $THH \* 100 / 50`
-echo "Percentahe of THH is $THH %"
+echo "THH : $THH %"
 TTH=`expr $TTH \* 100 / 50`
-echo "Percentahe of TTH is $TTH %"
+echo "TTH : $TTH %"
 THT=`expr $THT \* 100 / 50`
-echo "Percentahe of THT is $THT %"
+echo "THT : $THT %"
 HTT=`expr $HTT \* 100 / 50`
-echo "Percentahe of HTT is $HTT %"
+echo "HTT : $HTT %"
 TTT=`expr $TTT \* 100 / 50`
-echo "Percentahe of TTT is $TTT %"
+echo "TTT : $TTT %"
+#echo ${Dict[@]}
+declare -A Dict1
+Dict1=([HHH]=$HHH [HHT]=$HHT [HTH]=$HTH [THH]=$THH [TTH]=$TTH [THT]=$THT [HTT]=$HTT [TTT]=$TTT)
+max=0
+for i in ${!Dict1[@]}
+do
+	(( $i > max || max == 0 ))&& max=$i
+done
+echo "The winning combinatioon :"
+echo "$max : ${Dict1[$max]} %"
+;;
+*)
+exit 1
+;;
+esac
 
